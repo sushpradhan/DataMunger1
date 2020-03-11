@@ -78,8 +78,10 @@ package com.stackroute.datamunger;
 			return splitstring[0].trim();
 		}
 		else {
-			return queryString;
+			String[] splitString=queryString.toLowerCase().split("group");
+			return splitString[0].trim();
 		}
+		
 	}
 
     /*
@@ -113,24 +115,33 @@ package com.stackroute.datamunger;
 	 */
 	
 	public String getConditionsPartQuery(String queryString) {
-		String query;
-		String[] splitstring =  queryString.toLowerCase().split("where");
+		String query=null;
+		if(queryString.toLowerCase().contains(" where "))
+		{
+		String[] splitstring =  queryString.toLowerCase().split(" where ");
 		
-		if(splitstring[1].toLowerCase().contains("order")) {
-			String[] split2 = splitstring[1].toLowerCase().split("order");
+		if(splitstring[1].toLowerCase().contains(" order ")) {
+			String[] split2 = splitstring[1].toLowerCase().split(" order ");
 			query = split2[0];
 		}
 		
-		else if (splitstring[1].toLowerCase().contains("group")) {
-			String[] split2 = splitstring[1].toLowerCase().split("group");
+		else if (splitstring[1].toLowerCase().contains(" group ")) {
+			String[] split2 = splitstring[1].toLowerCase().split(" group ");
 			query = split2[0];
 		}
 		
 		else {
 			query = splitstring[1].trim();
 		}
-		return query;
+		}
+		if(!queryString.toLowerCase().contains(" where ")) {
+		
+			return null;
 	}
+		return query;
+		
+	}
+	
 
     /*
 	 * This method will extract condition(s) from the query string. The query can
